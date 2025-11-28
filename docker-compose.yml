@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  mysql:
+    build: .
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+      MYSQL_DATABASE: mi_base
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+    secrets:
+      - mysql_root_password
+      - mysql_password
+    ports:
+      - "3306:3306"
+    volumes:
+      #- ./config/mycnf.cnf:/etc/mysql/conf.d/mycnf.cnf
+      - mysql_data:/var/lib/mysql
+      - ./logs:/var/log/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+secrets:
+  mysql_root_password:
+    file: ./secrets/root_pwd.txt
+  mysql_password:
+    file: ./secrets/app_pwd.txt
+
+volumes:
+  mysql_data:
