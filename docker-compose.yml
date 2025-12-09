@@ -16,7 +16,7 @@ services:
       #- ./config/mycnf.cnf:/etc/mysql/conf.d/mycnf.cnf
       - mysql_data:/var/lib/mysql
       - ./logs:/var/log/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./sql:/docker-entrypoint-initdb.d/
 
 secrets:
   mysql_root_password:

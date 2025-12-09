@@ -1,0 +1,13 @@
+START TRANSACTION;
+
+INSERT INTO proyectos (nombre, descripcion, fecha_inicio, fecha_final) 
+VALUES ('Proyecto Fantasma', 'Prueba de integridad de datos', CURDATE(), CURDATE());
+
+SET @id_proyecto_nuevo = LAST_INSERT_ID();
+
+INSERT INTO tareas (nombre, descripcion, fecha_limite, id_estados, id_proyectos)
+VALUES ('Tarea Destinada a Fallar', 'Esta tarea romperá la lógica', CURDATE(), 99999, @id_proyecto_nuevo);
+
+ROLLBACK;
+
+SELECT * FROM proyectos WHERE nombre = 'Proyecto Fantasma';
